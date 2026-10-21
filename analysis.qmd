@@ -1,0 +1,28 @@
+---
+title: "Popularity of the Name Eliza Over Time"
+format: html
+execute:
+  echo: false
+  message: false
+  warning: false
+---
+
+```{r}
+library(tidyverse)
+
+# Read the baby names CSV and filter to girls named Eliza
+eliza_data <- read_csv("ssa-baby-names.csv") |>
+  filter(name == "Eliza", sex == "F")
+
+# Plot annual counts from 1880 to 2025
+ggplot(eliza_data, aes(x = year, y = count)) +
+  geom_line(color = "steelblue", linewidth = 1) +
+  labs(
+    title = "Babies Named Eliza in the U.S. (1880–2025)",
+    subtitle = "Annual count of female births recorded by the Social Security Administration",
+    x = "Year",
+    y = "Number of Babies",
+    caption = "Source: U.S. Social Security Administration"
+  ) +
+  theme_minimal()
+```
