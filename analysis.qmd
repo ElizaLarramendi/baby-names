@@ -10,8 +10,11 @@ execute:
 ```{r}
 library(tidyverse)
 
-# Read the baby names CSV and filter to girls named Eliza
-eliza_data <- read_csv("ssa-baby-names.csv") |>
+# Read the baby names CSV once so both plots can use it
+baby_names <- read_csv("ssa-baby-names.csv")
+
+# Filter to girls named Eliza
+eliza_data <- baby_names |>
   filter(name == "Eliza", sex == "F")
 
 # Plot annual counts from 1880 to 2025
@@ -22,6 +25,25 @@ ggplot(eliza_data, aes(x = year, y = count)) +
     subtitle = "Annual count of female births recorded by the Social Security Administration",
     x = "Year",
     y = "Number of Babies",
+    caption = "Source: U.S. Social Security Administration"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+# Filter to girls named either Eliza or Elizabeth
+comparison_data <- baby_names |>
+  filter(name %in% c("Eliza", "Elizabeth"), sex == "F")
+
+# Plot both names over time, using color to distinguish them
+ggplot(comparison_data, aes(x = year, y = count, color = name)) +
+  geom_line(linewidth = 1) +
+  labs(
+    title = "Popularity of Eliza vs. Elizabeth in the U.S. (1880–2025)",
+    subtitle = "Annual count of female births recorded by the Social Security Administration",
+    x = "Year",
+    y = "Number of Babies",
+    color = "Name",
     caption = "Source: U.S. Social Security Administration"
   ) +
   theme_minimal()
